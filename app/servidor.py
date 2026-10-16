@@ -29,6 +29,9 @@ WEB = os.path.join(RAIZ, "app", "web")
 DATOS = os.environ.get("PATRIMONIO_DATOS") or os.path.join(RAIZ, "mis_datos")
 DEMO = os.path.join(RAIZ, "demo", "cartera.json")
 PUERTO = int(os.environ.get("PATRIMONIO_PUERTO") or 8765)
+# Dirección de escucha. Por defecto solo tu ordenador (127.0.0.1). En un contenedor
+# (Docker/Coolify) hay que poner PATRIMONIO_HOST=0.0.0.0 y proteger el acceso por fuera.
+HOST = os.environ.get("PATRIMONIO_HOST") or "127.0.0.1"
 HORAS_PRECIOS = 6          # al arrancar, se actualizan si tienen más de esto
 
 app = Flask(__name__, static_folder=None)
@@ -486,7 +489,7 @@ def main():
     srv = None
     for puerto in range(PUERTO, PUERTO + 10):
         try:
-            srv = make_server("127.0.0.1", puerto, app, threaded=True)
+            srv = make_server(HOST, puerto, app, threaded=True)
             break
         except OSError:
             continue

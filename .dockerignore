@@ -1,0 +1,6 @@
+.git
+.gitignore
+mis_datos
+__pycache__
+*.pyc
+docs
